@@ -1,5 +1,5 @@
 const User = require('./User');
-const Message = require('./Message');
+const Glob = require('./Glob');
 const Meme = require('./Meme')
 
-module.exports = { User, Message, Meme };
+module.exports = { User, Glob, Meme };

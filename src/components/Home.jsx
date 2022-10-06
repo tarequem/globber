@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import SignupModal from "./SignupModal";
 
 const Home = () => {
+  const [showSignupModal, setShowSignupModal] = useState(false);
   return (
     <div className="bg-emerald-500">
-      <div>
-        <p className="text-8xl text-center text-yellow-900 flex items-center justify-center">
+      <div className="py-10 px-10 border-8 border-yellow-900">
+        <p className="text-8xl text-center text-yellow-900 items-center justify-center   py-5 px-5">
           Welcome to Globber!
         </p>
         <div className="items-center flex mx-auto justify-center my-20">
@@ -24,15 +26,23 @@ const Home = () => {
               placeholder="Password"
               className="my-4 p-2 border-2 border-yellow-900 rounded-md text-white focus:outline-none mx-auto flex items-center"
             />
-            <button id="login" className="text-white bg-yellow-900 px-6 py-3 my-2 mx-auto flex items-center rounded-md hover:scale-110 duration-300 border-4 border-white">
+            <button
+              id="login"
+              className="text-white bg-yellow-900 px-6 py-3 my-2 mx-auto flex items-center rounded-md hover:scale-110 duration-300 border-4 border-white"
+            >
               Chat with Globber!
             </button>
-            <button id="register" className="text-white bg-yellow-900 px-6 py-3 my-2 mb-5 mx-auto flex items-center rounded-md hover:scale-110 duration-300 border-4 border-white">
+            <button
+              onClick={() => setShowSignupModal(true)}
+              id="register"
+              className="text-white bg-yellow-900 px-6 py-3 my-2 mb-5 mx-auto flex items-center rounded-md hover:scale-110 duration-300 border-4 border-white"
+            >
               Register Now!
             </button>
           </form>
         </div>
       </div>
+      <SignupModal visible={showSignupModal} />
     </div>
   );
 };

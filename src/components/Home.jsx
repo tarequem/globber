@@ -3,6 +3,7 @@ import SignupModal from "./SignupModal";
 
 const Home = () => {
   const [showSignupModal, setShowSignupModal] = useState(false);
+  const handleOnClose = () => setShowSignupModal(false);
   return (
     <div className="bg-emerald-500">
       <div className="py-10 px-10 border-8 border-yellow-900">
@@ -18,13 +19,13 @@ const Home = () => {
               type="text"
               name="username"
               placeholder="Username"
-              className="p-2 border-2 border-yellow-900 rounded-md text-white focus:outline-none mx-auto flex items-center"
+              className="p-2 border-2 border-yellow-900 rounded-md text-black focus:outline-none mx-auto flex items-center"
             />
             <input
               type="text"
               name="password"
               placeholder="Password"
-              className="my-4 p-2 border-2 border-yellow-900 rounded-md text-white focus:outline-none mx-auto flex items-center"
+              className="my-4 p-2 border-2 border-yellow-900 rounded-md text-black focus:outline-none mx-auto flex items-center"
             />
             <button
               id="login"
@@ -42,7 +43,7 @@ const Home = () => {
           </form>
         </div>
       </div>
-      <SignupModal visible={showSignupModal} />
+      <SignupModal onClose={handleOnClose} visible={showSignupModal} />
     </div>
   );
 };

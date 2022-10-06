@@ -35,4 +35,4 @@ const globSchema = new Schema (
 
 const Glob = model('Glob', globSchema)
 
-module.exports = Thought;
+module.exports = Glob;

@@ -19,12 +19,14 @@ const Home = () => {
               type="text"
               name="username"
               placeholder="Username"
+              required
               className="p-2 border-2 border-yellow-900 rounded-md text-black focus:outline-none mx-auto flex items-center"
             />
             <input
               type="text"
               name="password"
               placeholder="Password"
+              required
               className="my-4 p-2 border-2 border-yellow-900 rounded-md text-black focus:outline-none mx-auto flex items-center"
             />
             <button

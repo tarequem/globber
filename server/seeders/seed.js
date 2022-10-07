@@ -33,9 +33,9 @@ db.once('open', async () => {
         const updatedUser = await User.updateOne(
             { _id: userId },
             { $push: { globs: createdGlob._id } }
-            );
+        );
 
-            createdGlobs.push(createdGlob);
+        createdGlobs.push(createdGlob);
     }
 
     console.log('all done!');

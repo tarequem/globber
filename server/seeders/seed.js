@@ -20,21 +20,6 @@ db.once('open', async () => {
 
     const createdUsers = await User.collection.insertMany(userData);
 
-    //create friends
-    for (let i = 0; i < 100; i += 1) {
-        const randomUserIndex = Math.floor(Math.random() * createdUsers.ops.length);
-        const { _id: userId } = createdUsers.ops[randomUserIndex];
-
-        let friendId = userId;
-
-        while (friendId === userId) {
-            const randomUserIndex = Math.floor(Math.random() * createdUsers.ops.length);
-            friendId = createdUsers.ops[randomUserIndex];
-        }
-
-        await User.updateOne({ _id: userId }, { $addToSet: { friends: friendId } });
-    }
-
     //create globs
     let createdGlobs = [];
     for (let i = 0; i < 100; i += 1) {

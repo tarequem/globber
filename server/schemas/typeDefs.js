@@ -9,6 +9,10 @@ const typeDefs = gql`
         email: String
         globs: [Glob]
     }
+    type Auth {
+        token: ID!
+        user: User
+    }
     type Glob {
         _id: ID
         globText: String
@@ -17,13 +21,13 @@ const typeDefs = gql`
     }
     type Query {
         users: [User]
-        user(username: String!): [User]
-        user(username: String): [Glob]
+        user(username: String!): User
+        globs(username: String): [Glob]
         glob(_id: ID!): Glob
     }
     type Mutation {
-        login(email: String!, password: String!): User
-        addUser(username: String!, email: String!, password: String!): User
+        login(email: String!, password: String!): Auth
+        addUser(username: String!, email: String!, password: String!): Auth
     }
 `;
 

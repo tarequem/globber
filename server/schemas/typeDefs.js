@@ -13,22 +13,20 @@ const typeDefs = gql`
         _id: ID
         globText: String
         createdAt: String
-    }
-    type Auth {
-        token: ID!
-        user: User
+        username: String
     }
     type Query {
-        me: User
         users: [User]
+        user(username: String!): [User]
         user(username: String): [Glob]
         glob(_id: ID!): Glob
     }
     type Mutation {
-        login(email: String!, password: String!): Auth
-        addUser(username: String!, email: String!, password: String!): Auth
-        addGlob(globText: String!): Glob
-    }`
+        login(email: String!, password: String!): User
+        addUser(username: String!, email: String!, password: String!): User
+    }
+`;
+
 
 // export the typeDefs
 module.exports = typeDefs;

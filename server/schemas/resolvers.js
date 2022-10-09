@@ -4,6 +4,17 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
+      me: async (parent, args, context) => {
+        if (context.user) {
+          const userData = await User.findOne({ _id: context.user._id })
+            .select('-__v -password')
+            .populate('globs')
+      
+          return userData;
+        }
+      
+        throw new AuthenticationError('Not logged in');
+      },
       users: async () => {
         return User.find()
           .select('-__v -password')
@@ -44,6 +55,21 @@ const resolvers = {
         
           const token = signToken(user);
           return { token, user };
+        },
+        addGlob: async (parent, args, context) => {
+          if (context.user) {
+            const glob = await Glob.create({ ...args, username: context.user.username });
+        
+            await User.findByIdAndUpdate(
+              { _id: context.user._id },
+              { $push: { globs: glob._id } },
+              { new: true }
+            );
+        
+            return glob;
+          }
+        
+          throw new AuthenticationError('You need to be logged in!');
         }
     }
   };

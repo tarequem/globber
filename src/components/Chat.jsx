@@ -24,7 +24,7 @@ const Chat = () => {
                     <textarea 
                     className="w-full" 
                     placeholder="globble globble..." />
-                    <button className="text-white bg-yellow-900 px-6 py-3 my-2 mb-5 mx-auto flex items-center rounded-md hover:scale-110 duration-300 border-4 border-white">Send</button>
+                    <button className="text-white bg-yellow-900 px-6 flex items-center rounded-md hover:scale-110 duration-300 border-4 border-white">Send</button>
                 </form>
             </div>
         </div>

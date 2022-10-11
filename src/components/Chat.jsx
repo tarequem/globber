@@ -8,20 +8,21 @@ const Chat = () => {
           Globber 🦃
         </p>
       </div>
-      <div className="">
-        <div className="h-30 flex flex-row mb-1.5">
+      <div className="h-screen">
+    
+        <div className="flex flex-row mb-1.5 h-4/6">
           <div className="border-4 border-yellow-900 bg-emerald-100 w-1/5 mx-2 p-9 h-full">
             <h3 className="flex items-center justify-center text-xl">
               Globbers Online:
             </h3>
           </div>
-          <div className="border-4 border-yellow-900 bg-emerald-100 w-4/5 mr-2 p-9">
+          <div className="border-4 border-yellow-900 bg-emerald-100 w-4/5 mr-2 p-9 h-full">
             <h3 className="flex items-center justify-center text-xl">
               Chat placeholder
             </h3>
           </div>
         </div>
-      </div>
+      
       <div className="bg-emerald-400">
         <form className=" border-4 border-yellow-900 bg-emerald-100 flex flex-row mx-2">
           <textarea className="w-full" placeholder="globble globble..." />
@@ -30,6 +31,7 @@ const Chat = () => {
           </button>
         </form>
       </div>
+    </div>
     </div>
   );
 };

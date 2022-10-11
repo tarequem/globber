@@ -8,21 +8,21 @@ const Chat = () => {
         Globber 🦃
         </p>
         </div>
-            <div className="h-full">
-                <div className="flex flex-row mb-1.5">
-                    <div className="border-4 border-yellow-900 bg-emerald-100 w-1/5 mr-1.5">
+            <div className="h-full ">
+                <div className="flex flex-row mb-1.5 ">
+                    <div className="border-4 border-yellow-900 bg-emerald-100 w-1/5 mx-2">
                         <h3 className="" >Globbers Online:</h3>
                     </div>
-                    <div className="border-4 border-yellow-900 bg-emerald-100 w-4/5">
+                    <div className="border-4 border-yellow-900 bg-emerald-100 w-4/5 mr-2">
                         <h3>Chat placeholder</h3>
                     </div>
                 </div>
 
             </div>
             <div className="bg-emerald-400">
-                <form className=" border-4 border-yellow-900 bg-emerald-100 flex flex-row">
+                <form className=" border-4 border-yellow-900 bg-emerald-100 flex flex-row mx-2">
                     <textarea 
-                    className="w-full" 
+                    className="w-full " 
                     placeholder="globble globble..." />
                     <button className="text-white bg-yellow-900 px-6 flex items-center rounded-md hover:scale-110 duration-300 border-4 border-white">Send</button>
                 </form>

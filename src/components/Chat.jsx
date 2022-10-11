@@ -2,7 +2,7 @@ import React from "react";
 
 const Chat = () => {
     return (
-        <div className="flex flex-col bg-emerald-400">
+        <div className="bg-emerald-400">
         <div>
         <p className="text-8xl text-left text-yellow-900 items-center justify-center   py-5 px-5">
         Globber 🦃

@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import SignupModal from "./SignupModal";
+import { useQuery } from '@apollo/client';
+import { QUERY_GLOBS } from '../utils/queries';
 
 const Home = () => {
   const [showSignupModal, setShowSignupModal] = useState(false);
   const handleOnClose = () => setShowSignupModal(false);
+  // use useQuery hook to make query request
+  const { loading, data } = useQuery(QUERY_GLOBS);
   return (
     <div className="bg-emerald-400">
       <div className="py-10 px-10 border-8 border-yellow-900">

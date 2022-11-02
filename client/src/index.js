@@ -21,12 +21,12 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 const httpLink = new HttpLink({
-  uri: 'http://globber-chat-box.herokuapp/graphql',
+  uri: 'http://sample-globber.herokuapp.com/',
 });
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: 'ws://globber-chat-box.herokuapp/graphql',
+    url: 'ws://sample-globber.herokuapp.com/graphql',
   })
 );
 

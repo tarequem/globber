@@ -1,37 +1,118 @@
-import React from "react";
+import { useMutation, useQuery, useSubscription } from '@apollo/client';
+import { GET_GLOBES_BY_USER } from '../utils/queries';
+import { SEND_GLOBE } from '../utils/mutation';
+import { GLOBE_SUBSCRIPTION } from '../utils/subscription';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import MessageCard from './MessageCard';
+import AuthService from '../utils/auth';
 
 const Chat = () => {
+  const { id, username } = useParams();
+
+  // Setting the message
+  const [text, setText] = useState('');
+  const [messages, setMessages] = useState([]);
+
+  // Logged In user Details
+  const {
+    data: { _id, username: currentUsername },
+  } = AuthService.getProfile();
+
+  // Messages send to the selected user
+  const { loading, error } = useQuery(GET_GLOBES_BY_USER, {
+    variables: { receiverId: id },
+    onCompleted(data) {
+      setMessages(data.globs);
+    },
+  });
+
+  // Sending Globe
+  const [sendGlobe] = useMutation(SEND_GLOBE);
+
+  // Subscription
+  const { data: globeData } = useSubscription(GLOBE_SUBSCRIPTION, {
+    onSubscriptionData({ subscriptionData: { data } }) {
+      if (
+        (data.globeAdded.receiverId === id &&
+          data.globeAdded.senderId === _id) ||
+        (data.globeAdded.receiverId === _id && data.globeAdded.senderId === id)
+      ) {
+        setMessages((prevMessages) => [...prevMessages, data.globeAdded]);
+      }
+    },
+  });
+
   return (
-    <div className="bg-emerald-400">
+    <div
+      className='flex flex-col justify-between border-4 border-yellow-900 bg-emerald-100 md:w-4/5 mr-2 p-9 h-full'
+      style={{ overflow: 'auto' }}
+    >
       <div>
-        <p className="text-8xl text-left text-yellow-900 items-center justify-center   py-5 px-5">
-          Globber 🦃
-        </p>
+        {error ? (
+          <div
+            className='p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800'
+            role='alert'
+          >
+            <span className='font-medium'>Error!</span> {error.message}
+          </div>
+        ) : loading ? (
+          <h3> Loading Chats ... </h3>
+        ) : messages.length <= 0 ? (
+          <h3> No message send/ receive with the User</h3>
+        ) : (
+          <ul>
+            {messages
+              .filter(
+                (glob) =>
+                  (glob.receiverId === id && glob.senderId === _id) ||
+                  (glob.receiverId === _id && glob.senderId === id)
+              )
+              .map((glob) => {
+                return (
+                  <MessageCard
+                    key={glob._id}
+                    item={{
+                      username:
+                        glob.receiverId === id ? currentUsername : username,
+                      globText: glob.globText,
+                      createdAt: glob.createdAt,
+                    }}
+                  />
+                );
+              })}
+          </ul>
+        )}
       </div>
-      <div className="h-screen">
-    
-        <div className="flex flex-row mb-1.5 h-4/6">
-          <div className="border-4 border-yellow-900 bg-emerald-100 w-1/5 mx-2 p-9 h-full">
-            <h3 className="flex items-center justify-center text-xl">
-              Globbers Online:
-            </h3>
-          </div>
-          <div className="border-4 border-yellow-900 bg-emerald-100 w-4/5 mr-2 p-9 h-full">
-            <h3 className="flex items-center justify-center text-xl">
-              Chat placeholder
-            </h3>
-          </div>
-        </div>
-      
-      <div className="bg-emerald-400">
-        <form className=" border-4 border-yellow-900 bg-emerald-100 flex flex-row mx-2">
-          <textarea className="w-full" placeholder="globble globble..." />
-          <button className="text-white bg-yellow-900 px-6 flex items-center rounded-md hover:scale-110 duration-300 border-4 border-white">
+      <>
+        <div
+          className=' border-4 border-yellow-900 bg-emerald-100 flex flex-row mx-2'
+          style={{ position: 'fixed', bottom: '0', left: '0', right: '0' }}
+        >
+          <textarea
+            className='w-full'
+            placeholder='globble globble...'
+            value={text}
+            onChange={(event) => {
+              setText(event.target.value);
+            }}
+          />
+          <button
+            className='text-white bg-yellow-900 px-6 flex items-center rounded-md hover:scale-110 duration-300 border-4 border-white'
+            onClick={() => {
+              sendGlobe({
+                variables: {
+                  receiverId: id,
+                  globText: text,
+                },
+              });
+              setText('');
+            }}
+          >
             Send
           </button>
-        </form>
-      </div>
-    </div>
+        </div>
+      </>
     </div>
   );
 };

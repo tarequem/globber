@@ -30,7 +30,6 @@ export default function SignupModal({ visible, onClose }) {
 
   // submit form
   const handleFormSubmit = async (event) => {
-    debugger;
     event.preventDefault();
 
     // use try/catch instead of promises to handle errors
@@ -41,7 +40,6 @@ export default function SignupModal({ visible, onClose }) {
       // Setting the token in local Storage
       Auth.login(data.addUser.token);
     } catch (e) {
-      debugger;
       console.error(e);
     }
   };

@@ -14,11 +14,14 @@ const globSchema = new Schema(
       default: Date.now,
       get: (timestamp) => dateFormat(timestamp),
     },
-    username: {
-      type: String,
-      required: true,
+    senderId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
-    //reactions: [reactionSchema]
+    receiverId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   {
     toJSON: {
@@ -26,12 +29,6 @@ const globSchema = new Schema(
     },
   }
 );
-
-//add a schema for emoji reactions if there is time (similar to other popular messaging apps)
-
-// thoughtSchema.virtual('reactionCount').get(function() {
-//     return this.reactions.length;
-// });
 
 const Glob = model('Glob', globSchema);
 

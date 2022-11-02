@@ -1,37 +1,65 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User, Glob } = require('../models');
 const { signToken } = require('../utils/auth');
+const { PubSub } = require('graphql-subscriptions');
+const GLOBE_ADDED = 'GLOBE_ADDED';
+
+const pubsub = new PubSub();
 
 const resolvers = {
   Query: {
-    me: async (parent, args, context) => {
+    // Get Logged In User
+    loggedInUser: async (parent, args, context) => {
+      console.log(context);
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id })
-          .select('-__v -password')
-          .populate('globs');
-
+        const userData = await User.findOne({ _id: context.user._id }).select(
+          '-__v -password'
+        );
         return userData;
       }
 
       throw new AuthenticationError('Not logged in');
     },
-    users: async () => {
-      return User.find().select('-__v -password').populate('globs');
+    // Get All Users
+    users: async (parent, args, context) => {
+      if (context.user) {
+        return User.find({ _id: { $ne: context.user._id } }).select(
+          '-__v -password'
+        );
+      }
+      throw new AuthenticationError('You need to be logged in!');
     },
-    user: async (parent, { username }) => {
-      return User.findOne({ username })
-        .select('-__v -password')
-        .populate('globs');
+    // Get A User
+    user: async (parent, { email }, context) => {
+      if (context.user) {
+        return await User.findOne({ email }).select('-__v -password');
+      }
+      throw new AuthenticationError('You need to be logged in!');
     },
-    globs: async (parent, { username }) => {
-      const params = username ? { username } : {};
-      return Glob.find(params).sort({ createdAt: -1 });
+    // Get All Messages from a specific User
+    globs: async (parent, { receiverId }, context) => {
+      if (context.user) {
+        return Glob.find({
+          $or: [
+            {
+              receiverId: { $eq: receiverId },
+              senderID: { $eq: context.user._id },
+            },
+            {
+              senderID: { $eq: receiverId },
+              receiverId: { $eq: context.user._id },
+            },
+          ],
+        }).sort({ createdAt: 1 });
+      }
+      throw new AuthenticationError('You need to be logged in!');
     },
     glob: async (parent, { _id }) => {
       return Glob.findOne({ _id });
     },
   },
   Mutation: {
+    // User SignUp
     addUser: async (parent, args) => {
       const { name, email, password } = args;
 
@@ -52,6 +80,7 @@ const resolvers = {
 
       throw new AuthenticationError('User Exists');
     },
+    // User Login
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
@@ -68,23 +97,26 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
+    // Create a Globe
     addGlob: async (parent, args, context) => {
       if (context.user) {
         const glob = await Glob.create({
           ...args,
-          username: context.user.username,
+          senderId: context.user._id,
         });
 
-        await User.findByIdAndUpdate(
-          { _id: context.user._id },
-          { $push: { globs: glob._id } },
-          { new: true }
-        );
-
+        // publishing the event
+        pubsub.publish(GLOBE_ADDED, { globeAdded: glob });
         return glob;
       }
 
       throw new AuthenticationError('You need to be logged in!');
+    },
+  },
+  Subscription: {
+    globeAdded: {
+      // Listening to the EVENT
+      subscribe: () => pubsub.asyncIterator(GLOBE_ADDED),
     },
   },
 };

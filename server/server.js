@@ -6,10 +6,13 @@ const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 const { authMiddleware } = require('./utils/auth');
 const path = require('path');
+const { WebSocketServer } = require('ws');
+const { useServer } = require('graphql-ws/lib/use/ws');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
 
 const PORT = process.env.PORT || 3001;
 // create a new Apollo server and pass in our schema data
-const server = new ApolloServer({
+const serverApollo = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware,
@@ -23,10 +26,12 @@ app.use(express.json());
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async (typeDefs, resolvers) => {
-  await server.start();
+  await serverApollo.start();
+
+  const schema = makeExecutableSchema({ typeDefs, resolvers });
 
   //integerate our Apollo server with Express application as middleware
-  server.applyMiddleware({ app });
+  serverApollo.applyMiddleware({ app });
 
   // Serve up static assets
   if (process.env.NODE_ENV === 'production') {
@@ -38,11 +43,17 @@ const startApolloServer = async (typeDefs, resolvers) => {
   });
 
   db.once('open', () => {
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
+      // Defining the web-socket server
+      const wsServer = new WebSocketServer({
+        server,
+        path: '/graphql',
+      });
+      useServer({ schema }, wsServer);
       console.log(`API server running on port ${PORT}!`);
       // log where we can go to test our GQL API
       console.log(
-        `Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`
+        `Use GraphQL at http://localhost:${PORT}${serverApollo.graphqlPath}`
       );
     });
   });

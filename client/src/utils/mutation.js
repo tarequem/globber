@@ -24,3 +24,15 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const SEND_GLOBE = gql`
+  mutation Mutation($receiverId: ID!, $globText: String!) {
+    addGlob(receiverId: $receiverId, globText: $globText) {
+      _id
+      globText
+      createdAt
+      senderId
+      receiverId
+    }
+  }
+`;

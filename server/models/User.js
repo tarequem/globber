@@ -21,12 +21,6 @@ const userSchema = new Schema({
     minlength: 8,
     maxlength: 32,
   },
-  globs: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Glob',
-    },
-  ],
 });
 
 // set up pre-save middleware to create password

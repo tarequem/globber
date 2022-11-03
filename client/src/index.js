@@ -21,21 +21,13 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 const httpLink = new HttpLink({
-<<<<<<< HEAD
-  uri: 'http://sample-globber.herokuapp.com/',
-=======
-  uri: 'https://server-globber.herokuapp.com/graphql',
->>>>>>> feature/socket
+  uri: 'https://chatting-globber.herokuapp.com/graphql',
 });
 
 // websocket
 const wsLink = new GraphQLWsLink(
   createClient({
-<<<<<<< HEAD
-    url: 'ws://sample-globber.herokuapp.com/graphql',
-=======
-    url: 'wss://server-globber.herokuapp.com/graphql',
->>>>>>> feature/socket
+    url: 'wss://chatting-globber.herokuapp.com/graphql',
   })
 );
 

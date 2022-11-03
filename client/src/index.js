@@ -24,6 +24,7 @@ const httpLink = new HttpLink({
   uri: 'https://server-globber.herokuapp.com/graphql',
 });
 
+// websocket
 const wsLink = new GraphQLWsLink(
   createClient({
     url: 'wss://server-globber.herokuapp.com/graphql',

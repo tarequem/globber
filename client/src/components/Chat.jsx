@@ -45,7 +45,7 @@ const Chat = () => {
 
   return (
     <div
-      className='flex flex-col justify-between border-4 border-yellow-900 bg-emerald-100 md:w-4/5 mr-2 p-9 h-full'
+      className='flex flex-col justify-between border-4 border-yellow-900 bg-emerald-100 w-full mr-2 p-9 h-full'
       style={{ overflow: 'auto' }}
     >
       <div>
@@ -98,7 +98,7 @@ const Chat = () => {
             }}
           />
           <button
-            className='text-white bg-yellow-900 px-6 flex items-center rounded-md hover:scale-110 duration-300 border-4 border-white'
+            className='text-white  bg-gradient-to-r from-yellow-600 via-yellow-700 to-yellow-900  hover:scale-110 duration-300 focus:ring-4 font-medium rounded-lg text-sm px-8 py-2.5 m-2 mb-2  focus:outline-none border-4 border-white'
             onClick={() => {
               sendGlobe({
                 variables: {

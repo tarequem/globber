@@ -12,6 +12,7 @@ const MessageCard = ({ item: { username, globText, createdAt } }) => {
           <img
             className='w-12 h-12 rounded-full'
             src={`https://avatars.dicebear.com/api/initials/${username}.svg`}
+            alt={``}
           />
         </div>
         <div className='ml-3 text-sm font-normal'>

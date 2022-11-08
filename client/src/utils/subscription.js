@@ -6,6 +6,8 @@ export const GLOBE_SUBSCRIPTION = gql`
       _id
       globText
       createdAt
+      senderUserName
+      senderUserEmail
       senderId
       receiverId
     }

@@ -31,6 +31,8 @@ export const SEND_GLOBE = gql`
       _id
       globText
       createdAt
+      senderUserName
+      senderUserEmail
       senderId
       receiverId
     }

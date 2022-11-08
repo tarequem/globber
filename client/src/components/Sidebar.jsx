@@ -2,13 +2,22 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_USERS } from '../utils/queries';
 import UserCard from './UserCard';
+import { ChatState } from '../context/ChatProvider';
 
 const Sidebar = () => {
   const { loading, error, data } = useQuery(GET_USERS);
-
+  const {
+    selectedUser: { username },
+  } = ChatState();
   return (
     <>
       <div className='text-center m-auto'>
+        {username !== undefined && (
+          <span className='text-xl font-medium text-gray-900 dark:text-white'>
+            Selected Gobbler : {username}
+          </span>
+        )}
+
         <button
           className='text-white  bg-gradient-to-r from-yellow-600 via-yellow-700 to-yellow-900  hover:scale-110 duration-300 focus:ring-4 font-medium rounded-lg text-sm px-2 py-2.5 m-2 mb-2  focus:outline-none border-4 border-white'
           type='button'

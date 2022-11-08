@@ -21,15 +21,15 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 const httpLink = new HttpLink({
-  // uri: 'https://chatting-globber.herokuapp.com/graphql',
-  uri: 'http://localhost:3000/graphql',
+  uri: 'https://chatting-globber.herokuapp.com/graphql',
+  // uri: 'http://localhost:3001/graphql',
 });
 
 // websocket
 const wsLink = new GraphQLWsLink(
   createClient({
-    // url: 'wss://chatting-globber.herokuapp.com/graphql',
-    url: 'ws://localhost:3000/graphql',
+    url: 'wss://chatting-globber.herokuapp.com/graphql',
+    // url: 'ws://localhost:3001/graphql',
   })
 );
 

@@ -10,7 +10,6 @@ const resolvers = {
   Query: {
     // Get Logged In User
     loggedInUser: async (parent, args, context) => {
-      console.log(context);
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id }).select(
           '-__v -password'
@@ -103,6 +102,8 @@ const resolvers = {
         const glob = await Glob.create({
           ...args,
           senderId: context.user._id,
+          senderUserName: context.user.username,
+          senderUserEmail: context.user.email,
         });
 
         // publishing the event

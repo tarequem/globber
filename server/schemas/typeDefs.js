@@ -19,6 +19,8 @@ const typeDefs = gql`
     globText: String
     createdAt: String
     senderId: ID!
+    senderUserName: String!
+    senderUserEmail: String!
     receiverId: ID!
   }
 

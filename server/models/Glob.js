@@ -14,6 +14,14 @@ const globSchema = new Schema(
       default: Date.now,
       get: (timestamp) => dateFormat(timestamp),
     },
+    senderUserEmail: {
+      type: Schema.Types.String,
+      ref: 'User',
+    },
+    senderUserName: {
+      type: Schema.Types.String,
+      ref: 'User',
+    },
     senderId: {
       type: Schema.Types.ObjectId,
       ref: 'User',

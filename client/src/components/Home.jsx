@@ -28,8 +28,6 @@ const Home = () => {
       });
 
       Auth.login(data.login.token);
-
-      console.log(data);
     } catch (e) {
       console.error(e);
     }

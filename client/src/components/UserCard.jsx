@@ -1,13 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ChatState } from '../context/ChatProvider';
 
 const UserCard = ({ item: { _id, username, email } }) => {
   const navigate = useNavigate();
+  const { selectedUser, setSelectedUser } = ChatState();
   return (
     <li
       className='w-full  usercard'
       key={_id}
-      onClick={() => navigate(`/${_id}/${username}/${email}`)}
+      onClick={() => {
+        setSelectedUser({ id: _id, username: username, email: email });
+        navigate(`/${_id}/${username}/${email}`);
+      }}
+      style={{ background: selectedUser.id === _id ? 'white' : '' }}
     >
       <div className='flex items-center space-x-4'>
         <img

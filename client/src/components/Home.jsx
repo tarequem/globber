@@ -38,8 +38,8 @@ const Home = () => {
     });
   };
   return (
-    <div className='bg-emerald-400'>
-      <div className='py-10 px-10 border-8 border-yellow-900'>
+    <div className='bg-emerald-400 border-8 border-yellow-900 h-screen'>
+      <div className='py-10 px-10 '>
         <p className='text-8xl text-center text-yellow-900 items-center justify-center   py-5 px-5'>
           Welcome to Globber!
         </p>
@@ -54,7 +54,7 @@ const Home = () => {
             <input
               type='text'
               name='email'
-              placeholder='email'
+              placeholder='Email'
               value={formState.email}
               onChange={handleChange}
               required

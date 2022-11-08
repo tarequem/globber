@@ -23,7 +23,7 @@ const HomeScreen = () => {
 
   return (
     <ChatProvider>
-      <div className='bg-gradient-to-r from-emerald-300 via-emerald-400 to-emerald-300  p-2'>
+      <div className='bg-gradient-to-r from-emerald-300 via-emerald-400 to-emerald-300  p-2 h-screen'>
         <div className='flex flex-wrap w-full justify-between mb-3'>
           <a href='/'>
             <p
@@ -80,7 +80,7 @@ const HomeScreen = () => {
             </div>
           </div>
         </div>
-        <div className='flex flex-row h-screen'>
+        <div className='flex flex-row h-5/6'>
           <AllRoutes />
           <Sidebar />
         </div>

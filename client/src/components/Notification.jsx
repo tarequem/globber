@@ -3,9 +3,10 @@ import { ChatState } from '../context/ChatProvider';
 import { useNavigate } from 'react-router-dom';
 
 const Notification = () => {
-  const { notification, selectedUser } = ChatState();
   const navigate = useNavigate();
-  useEffect(() => [notification]);
+  const { notification, selectedUser } = ChatState();
+
+  // useEffect(() => [notification]);
 
   return (
     <>
@@ -59,9 +60,11 @@ const Notification = () => {
                         (notify) => notify.senderId === message.senderId
                       )
                     );
+
                     navigate(
                       `/${message.senderId}/${message.senderUserName}/${message.senderUserEmail}`
                     );
+                    // `/${message.senderId}/${message.senderUserName}/${message.senderUserEmail}`
                   }}
                 >
                   <div className='flex-shrink-0'>

@@ -7,14 +7,27 @@ import MessageCard from './MessageCard';
 import AuthService from '../utils/auth';
 import { ChatState } from '../context/ChatProvider';
 import Loading from './Loading';
+import EmojiPicker from 'emoji-picker-react';
 
 const Chat = () => {
   const { id, username, email } = useParams();
-  const { messages, setMessages, setSelectedUser, selectedUser } = ChatState();
 
-  if (selectedUser.length <= 0 && id !== undefined) {
+  const {
+    messages,
+    setMessages,
+    setSelectedUser,
+    selectedUser,
+    chosenEmoji,
+    setchosenEmoji,
+  } = ChatState();
+  // const [chosenEmoji, setchosenEmoji] = useState(false);
+
+  useEffect(() => {
     setSelectedUser({ id: id, username: username, email: email });
-  }
+  }, [
+    (selectedUser.length <= 0 && id !== undefined) || selectedUser.id !== id,
+  ]);
+
   // Setting the message
   const [text, setText] = useState('');
 
@@ -46,6 +59,14 @@ const Chat = () => {
       [messages]
     );
   });
+
+  const onEmojiClick = (event, emojiObject) => {
+    setText((previosMessages) => previosMessages + event.emoji);
+  };
+
+  const clickHandler = () => {
+    setchosenEmoji(!chosenEmoji);
+  };
   return (
     <div className='flex flex-col border-4 border-yellow-900 bg-emerald-100 w-full mx-2 p-9 justify-between'>
       <div style={{ overflow: 'auto' }}>
@@ -89,7 +110,13 @@ const Chat = () => {
           </ul>
         )}
       </div>
+
       <>
+        {chosenEmoji && (
+          <div>
+            <EmojiPicker onEmojiClick={onEmojiClick} />
+          </div>
+        )}
         <div className='flex items-center py-2 px-3 mt-3 bg-emerald-100 rounded-lg dark:bg-gray-700 border-2 border-yellow-500 hover:border-yellow-800 '>
           {/* <button
             type='button'
@@ -110,9 +137,11 @@ const Chat = () => {
             </svg>
             <span className='sr-only'>Upload image</span>
           </button> */}
+
           <button
             type='button'
             className='p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600'
+            onClick={clickHandler}
           >
             <svg
               aria-hidden='true'
@@ -129,6 +158,7 @@ const Chat = () => {
             </svg>
             <span className='sr-only'>Add emoji</span>
           </button>
+
           <textarea
             id='chat'
             rows='1'

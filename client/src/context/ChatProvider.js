@@ -9,13 +9,14 @@ const ChatProvider = ({ children }) => {
   const [selectedtab, setTab] = useState([false]);
   const [notification, setNotification] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [chosenEmoji, setchosenEmoji] = useState(false);
 
   // Logged In user Details
   const {
     data: { _id },
   } = AuthService.getProfile();
 
-  useEffect(() => {}, [messages]);
+  useEffect(() => {}, [messages, notification.length > 0]);
 
   // Subscibing to all the messages
   useSubscription(GLOBE_SUBSCRIPTION, {
@@ -40,6 +41,8 @@ const ChatProvider = ({ children }) => {
         messages,
         setMessages,
         notification,
+        chosenEmoji,
+        setchosenEmoji,
       }}
     >
       {children}

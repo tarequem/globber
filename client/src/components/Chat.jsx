@@ -39,6 +39,7 @@ const Chat = () => {
   // Messages send to the selected user
   const { loading, error } = useQuery(GET_GLOBES_BY_USER, {
     variables: { receiverId: id },
+    pollInterval: 3000,
     onCompleted(data) {
       setMessages(data.globs);
     },

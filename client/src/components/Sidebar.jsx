@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_USERS } from '../utils/queries';
 import UserCard from './UserCard';
 import { ChatState } from '../context/ChatProvider';
 
 const Sidebar = () => {
-  const { loading, error, data } = useQuery(GET_USERS);
+  const { loading, error, data } = useQuery(GET_USERS, { pollInterval: 3000 });
+  useEffect(() => {}, [data]);
   const {
     selectedUser: { username },
   } = ChatState();

@@ -14,6 +14,9 @@ const userSchema = new Schema({
     unique: true,
     match: [/.+@.+\..+/, 'Must match an email address!'],
   },
+  url: {
+    type: String,
+  },
   //email integration for the purpose of associating emote microtransactions to an account
   password: {
     type: String,

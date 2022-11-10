@@ -7,6 +7,7 @@ export const GET_USERS = gql`
       _id
       username
       email
+      url
     }
   }
 `;
@@ -29,6 +30,7 @@ export const LOGGED_IN_USER = gql`
       _id
       username
       email
+      url
     }
   }
 `;

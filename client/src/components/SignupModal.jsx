@@ -4,28 +4,16 @@ import { ADD_USER } from '../utils/mutation';
 import Auth from '../utils/auth';
 
 export default function SignupModal({ visible, onClose }) {
-  // User usestate
-  const [formState, setFormState] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
+  const [username, setUserName] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [url, setUrl] = useState('');
 
   // User Registartion Mutation
   const [addUser, { error }] = useMutation(ADD_USER);
 
   const handleOnClose = (e) => {
     if (e.target.id === 'container') onClose();
-  };
-
-  // update state based on form input changes
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
-    setFormState({
-      ...formState,
-      [name]: value,
-    });
   };
 
   // submit form
@@ -35,12 +23,42 @@ export default function SignupModal({ visible, onClose }) {
     // use try/catch instead of promises to handle errors
     try {
       // execute addUser mutation and pass in variable data from form
-      const { data } = await addUser({ variables: { ...formState } });
+      const { data } = await addUser({
+        variables: {
+          username: username,
+          email: email,
+          password: password,
+          url: url,
+        },
+      });
 
       // Setting the token in local Storage
       Auth.login(data.addUser.token);
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const postDetails = (pics) => {
+    if (pics !== undefined) {
+      if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
+        const data = new FormData();
+        data.append('file', pics);
+        data.append('upload_preset', 'globber');
+        data.append('cloud_name', 'dvijdokq7');
+        fetch('https://api.cloudinary.com/v1_1/dvijdokq7/image/upload', {
+          method: 'post',
+          body: data,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setUrl(data.url.toString());
+            console.log(data.url.toString());
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     }
   };
 
@@ -64,8 +82,7 @@ export default function SignupModal({ visible, onClose }) {
             type='text'
             name='username'
             placeholder='Username'
-            value={formState.username}
-            onChange={handleChange}
+            onChange={(e) => setUserName(e.target.value)}
             required
             className='p-4 border-2 border-yellow-900 rounded-md text-black focus:outline-none mx-auto flex items-center'
           />
@@ -73,8 +90,7 @@ export default function SignupModal({ visible, onClose }) {
             type='text'
             name='email'
             placeholder='Email Address'
-            value={formState.email}
-            onChange={handleChange}
+            onChange={(e) => setEmail(e.target.value)}
             required
             className='my-4 p-4 border-2 border-yellow-900 rounded-md text-black focus:outline-none mx-auto flex items-center'
           />
@@ -82,10 +98,16 @@ export default function SignupModal({ visible, onClose }) {
             type='password'
             name='password'
             placeholder='Password'
-            value={formState.password}
-            onChange={handleChange}
+            onChange={(e) => setPassword(e.target.value)}
             required
             className='p-4 border-2 border-yellow-900 rounded-md text-black focus:outline-none mx-auto flex items-center'
+          />
+          <input
+            type='file'
+            name='url'
+            accept='image/*'
+            onChange={(e) => postDetails(e.target.files[0])}
+            className='mt-2 border-2 border-yellow-900 rounded-md text-black focus:outline-none mx-auto flex items-center'
           />
           <button
             id='signup'
@@ -97,10 +119,10 @@ export default function SignupModal({ visible, onClose }) {
 
         {error && (
           <div
-            class='p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800 mt-3'
+            className='p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800 mt-3'
             role='alert'
           >
-            <span class='font-medium'>Info alert!</span> {error.message}
+            <span className='font-medium'>Info alert!</span> {error.message}
           </div>
         )}
       </div>

@@ -60,7 +60,7 @@ const resolvers = {
   Mutation: {
     // User SignUp
     addUser: async (parent, args) => {
-      const { name, email, password } = args;
+      const { name, email, password, url } = args;
 
       if (password.length < 8) {
         throw new AuthenticationError(

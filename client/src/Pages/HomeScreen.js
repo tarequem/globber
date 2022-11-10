@@ -18,8 +18,9 @@ const AllRoutes = () => {
 
 const HomeScreen = () => {
   const {
-    data: { username, email },
+    data: { username, email, url },
   } = Auth.getProfile();
+  console.log(url);
 
   return (
     <ChatProvider>
@@ -47,11 +48,19 @@ const HomeScreen = () => {
               data-dropdown-placement='bottom'
             >
               <span className='sr-only'>Open user menu</span>
-              <img
-                className='w-10 h-10 rounded-full'
-                src={`https://avatars.dicebear.com/api/initials/${username}.svg`}
-                alt='user photo'
-              />
+              {url ? (
+                <img
+                  className='w-10 h-10 rounded-full'
+                  src={url}
+                  alt='user photo'
+                />
+              ) : (
+                <img
+                  className='w-10 h-10 rounded-full'
+                  src={`https://avatars.dicebear.com/api/initials/${username}.svg`}
+                  alt='user photo'
+                />
+              )}
             </button>
 
             <div

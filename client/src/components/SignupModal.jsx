@@ -69,22 +69,19 @@ export default function SignupModal({ visible, onClose }) {
       onClick={handleOnClose}
       className='fixed inset-0 bg-gray-500 bg-opacity-20 backdrop-blur-sm flex justify-center items-center'
     >
-      <div className='bg-emerald-400 border-4 border-yellow-900 p-6 rounded'>
-        <p className='flex items-center justify-center pb-3 text-yellow-900 text-xl'>
+      <div className='bg-emerald-400 border-4 border-yellow-900 p-8 rounded '>
+        <p className='text-center p-2 mb-4 text-white border-4 rounded-md bg-yellow-900 text-xl'>
           {' '}
           Please register now!
         </p>
-        <form
-          onSubmit={handleFormSubmit}
-          className='flex flex-col w-full md:w-1/2'
-        >
+        <form onSubmit={handleFormSubmit} className='flex flex-col w-full'>
           <input
             type='text'
             name='username'
             placeholder='Username'
             onChange={(e) => setUserName(e.target.value)}
             required
-            className='p-4 border-2 border-yellow-900 rounded-md text-black focus:outline-none mx-auto flex items-center'
+            className='p-3 border-2 border-yellow-900 rounded-md text-black focus:outline-none  flex items-center'
           />
           <input
             type='text'
@@ -92,7 +89,7 @@ export default function SignupModal({ visible, onClose }) {
             placeholder='Email Address'
             onChange={(e) => setEmail(e.target.value)}
             required
-            className='my-4 p-4 border-2 border-yellow-900 rounded-md text-black focus:outline-none mx-auto flex items-center'
+            className='my-3 p-3 border-2 border-yellow-900 rounded-md text-black focus:outline-none  flex items-center'
           />
           <input
             type='password'
@@ -100,7 +97,7 @@ export default function SignupModal({ visible, onClose }) {
             placeholder='Password'
             onChange={(e) => setPassword(e.target.value)}
             required
-            className='p-4 border-2 border-yellow-900 rounded-md text-black focus:outline-none mx-auto flex items-center'
+            className='p-3 border-2 border-yellow-900 rounded-md text-black focus:outline-none flex items-center'
           />
           <input
             type='file'

@@ -39,16 +39,13 @@ const Home = () => {
   };
   return (
     <div className='bg-emerald-400 border-8 border-yellow-900 h-screen'>
-      <div className='py-10 px-10 '>
-        <p className='text-8xl text-center text-yellow-900 items-center justify-center   py-5 px-5'>
+      <div className='flex flex-col w-full mt-20'>
+        <p className='text-6xl text-center text-yellow-900 items-center justify-center'>
           Welcome to Globber!
         </p>
-        <div className='items-center flex mx-auto justify-center my-20'>
-          <form
-            onSubmit={handleFormSubmit}
-            className='flex flex-col w-full md:w-1/2'
-          >
-            <p className='border-4 rounded-md py-3 bg-yellow-900 text-white text-xl mx-auto flex items-center px-6 mb-5'>
+        <div className='items-center  mx-auto w-full md:w-1/2 mt-5'>
+          <form onSubmit={handleFormSubmit} className='flex flex-col '>
+            <p className='border-4 rounded-md py-2.5 bg-yellow-900 text-white text-xl mx-auto flex items-center p-6 m-3'>
               Please login or signup below!
             </p>
             <input
@@ -82,15 +79,15 @@ const Home = () => {
             >
               Register Now!
             </button>
+            {error && (
+              <div
+                className='p-4 mb-1 w-3/4 mx-auto text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800 mt-3'
+                role='alert'
+              >
+                <span className='font-medium'>Info alert!</span> {error.message}
+              </div>
+            )}
           </form>
-          {error && (
-            <div
-              className='p-4 mb-1 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800 mt-3'
-              role='alert'
-            >
-              <span className='font-medium'>Info alert!</span> {error.message}
-            </div>
-          )}
         </div>
       </div>
       <SignupModal onClose={handleOnClose} visible={showSignupModal} />

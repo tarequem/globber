@@ -55,16 +55,13 @@ const Notification = () => {
                   style={{ cursor: 'pointer' }}
                   className='flex py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-700'
                   onClick={() => {
-                    notification.pop(
-                      notification.filter(
-                        (notify) => notify.senderId === message.senderId
-                      )
+                    notification.splice(
+                      notification.findIndex((x) => x._id === message._id),
+                      1
                     );
-
                     navigate(
                       `/${message.senderId}/${message.senderUserName}/${message.senderUserEmail}`
                     );
-                    // `/${message.senderId}/${message.senderUserName}/${message.senderUserEmail}`
                   }}
                 >
                   <div className='flex-shrink-0'>
